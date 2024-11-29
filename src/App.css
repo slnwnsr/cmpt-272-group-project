@@ -1,0 +1,28 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.box {
+  padding: 1rem;
+}
+
+/* affects the details card not sure why */
+.card {
+  position: absolute;
+  z-index: 1;
+  top:0;
+  bottom: 0;
+  left: 30%;
+  right: 0;
+  margin: auto;
+  color: black;
+  border: solid 5px black;
+}
