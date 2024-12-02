@@ -198,42 +198,50 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
 
       //Sort incidents by type ascending
       const sortByTypeAscending = () => {
-        incidents.sort((a,b) => a.type > b.type ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type < b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by type descending
       const sortByTypeDescending = () => {
-        incidents.sort((a,b) => a.type < b.type ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type > b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by location name ascending
       const sortByLocationNameAscending = () => {
-        incidents.sort((a,b) => a.locationName > b.locationName ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName < b.locationName ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by location name descending
       const sortByLocationNameDescending = () => {
-        incidents.sort((a,b) => a.locationName < b.locationName ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName > b.locationName ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by time ascending
       const sortByTimeAscending = () => {
-        incidents.sort((a,b) => a.dateTime > b.dateTime ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime < b.dateTime ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by time descending
       const sortByTimeDescending = () => {
-        incidents.sort((a,b) => a.dateTime < b.dateTime ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime > b.dateTime ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by status ascending
       const sortByStatusAscending = () => {
-        incidents.sort((a,b) => a.status > b.status ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.status < b.status ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by status descending
       const sortByStatusDescending = () => {
-        incidents.sort((a,b) => a.status < b.status ? -1 : 1);
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.status > b.status ? -1 : 1);
+        setIncidents(incidentsArraySorted);
       }
 
 
@@ -285,7 +293,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                     <button onClick = { sortByLocationNameDescending }>↓</button>
                   </th>
                   <th>Type
-                    <button onClick = { sortByTimeAscending }>↑</button>
+                    <button onClick = { sortByTypeAscending }>↑</button>
                     <button onClick = { sortByTypeDescending }>↓</button> 
                   </th>
                   <th>Time Reported
