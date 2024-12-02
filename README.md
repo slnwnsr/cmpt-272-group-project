@@ -8,6 +8,6 @@
 - Jake Choi (301552446)
 - Enoch Muwanguzi (301544234)
 - Kaira Martinez ()
-- Karl Rodriguez ()
+- Karl Matthew Rodriguez (301576895)
 
 ## Usage
