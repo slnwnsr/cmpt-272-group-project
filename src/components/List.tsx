@@ -280,11 +280,23 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
             <table id="listTable">
                 <tbody>
                 <tr>
-                <th>Location</th>
-                <th>Type</th>
-                <th>Time Reported</th>
-                <th colSpan={3}>Status</th>
-              </tr>
+                  <th>Location
+                    <button onClick = { sortByLocationNameAscending }>↑</button>
+                    <button onClick = { sortByLocationNameDescending }>↓</button>
+                  </th>
+                  <th>Type
+                    <button onClick = { sortByTimeAscending }>↑</button>
+                    <button onClick = { sortByTypeDescending }>↓</button> 
+                  </th>
+                  <th>Time Reported
+                    <button onClick = { sortByTimeAscending }>↑</button>
+                    <button onClick = { sortByTimeDescending }>↓</button> 
+                  </th>
+                  <th colSpan={3}>Status
+                    <button onClick = { sortByStatusAscending }>↑</button>
+                    <button onClick = { sortByStatusDescending }>↓</button> 
+                  </th>
+                </tr>
             {incidents.map((incident, index) => (
               <tr key={index}>
                 <td>{incident.locationName}</td>
