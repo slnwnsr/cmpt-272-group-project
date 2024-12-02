@@ -193,53 +193,50 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
         locationTextInput.disabled = event.target.checked;
       }
 
-
-      //Functions to sort incidents array
-
-      //Sort incidents by type ascending
-      const sortByTypeAscending = () => {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.type < b.type ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by type descending
-      const sortByTypeDescending = () => {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.type > b.type ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
       //Sort incidents by location name ascending
-      const sortByLocationNameAscending = () => {
+      function sortByLocationNameAscending() {
         const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName < b.locationName ? -1 : 1);
         setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by location name descending
-      const sortByLocationNameDescending = () => {
+      function sortByLocationNameDescending() {
         const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName > b.locationName ? -1 : 1);
         setIncidents(incidentsArraySorted);
       }
 
+      //Sort incidents by type ascending
+      function sortByTypeAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type < b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by type descending
+      function sortByTypeDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type > b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
       //Sort incidents by time ascending
-      const sortByTimeAscending = () => {
+      function sortByTimeAscending() {
         const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime < b.dateTime ? -1 : 1);
         setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by time descending
-      const sortByTimeDescending = () => {
+      function sortByTimeDescending() {
         const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime > b.dateTime ? -1 : 1);
         setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by status ascending
-      const sortByStatusAscending = () => {
+      function sortByStatusAscending() {
         const incidentsArraySorted = [...incidents].sort((a,b) => a.status < b.status ? -1 : 1);
         setIncidents(incidentsArraySorted);
       }
 
       //Sort incidents by status descending
-      const sortByStatusDescending = () => {
+      function sortByStatusDescending() {
         const incidentsArraySorted = [...incidents].sort((a,b) => a.status > b.status ? -1 : 1);
         setIncidents(incidentsArraySorted);
       }
@@ -289,20 +286,20 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                 <tbody>
                 <tr>
                   <th>Location
-                    <button onClick = { sortByLocationNameAscending }>↑</button>
-                    <button onClick = { sortByLocationNameDescending }>↓</button>
+                    <button onClick = {sortByLocationNameAscending}>↑</button>
+                    <button onClick = {sortByLocationNameDescending}>↓</button>
                   </th>
                   <th>Type
-                    <button onClick = { sortByTypeAscending }>↑</button>
-                    <button onClick = { sortByTypeDescending }>↓</button> 
+                    <button onClick = {sortByTypeAscending}>↑</button>
+                    <button onClick = {sortByTypeDescending}>↓</button> 
                   </th>
                   <th>Time Reported
-                    <button onClick = { sortByTimeAscending }>↑</button>
-                    <button onClick = { sortByTimeDescending }>↓</button> 
+                    <button onClick = {sortByTimeAscending}>↑</button>
+                    <button onClick = {sortByTimeDescending}>↓</button> 
                   </th>
                   <th colSpan={3}>Status
-                    <button onClick = { sortByStatusAscending }>↑</button>
-                    <button onClick = { sortByStatusDescending }>↓</button> 
+                    <button onClick = {sortByStatusAscending}>↑</button>
+                    <button onClick = {sortByStatusDescending}>↓</button> 
                   </th>
                 </tr>
             {incidents.map((incident, index) => (
