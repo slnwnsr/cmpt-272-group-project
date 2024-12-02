@@ -108,6 +108,9 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                 localStorage.setItem('incidents', JSON.stringify(updatedIncidents));
                 onAddIncident(newIncident);
                 console.log("Incident saved:", newIncident);
+                //reset input fields
+                const form = event.target as HTMLFormElement;
+                form.reset();
             }
         }
     }
@@ -199,7 +202,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
         <div id="incidentWindow">
         <div id="incidentForm">
             <h3>Report an Incident</h3>
-            <form  onSubmit={addIncident}>
+            <form onSubmit={addIncident}>
                 <table>
                     <tbody>
                     <tr>
