@@ -18,9 +18,12 @@ interface Incident {
   // hashed password for verifying deletion and status changing
   const hashedPassword: string = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 
-function List({ markerPosition, onAddIncident, onDeleteIncident }:
+function List({ markerPosition, onAddIncident, onDeleteIncident, onTriggerPopup }:
     { markerPosition: [number, number] | null,
-      onAddIncident: (incident: Incident) => void, onDeleteIncident: (index: number) => void }) {
+      onAddIncident: (incident: Incident) => void, 
+      onDeleteIncident: (index: number) => void,
+      onTriggerPopup: (incident: Incident | null) => void 
+    }) {
 
     // state for pulling up information when an incident in the list is selected
     const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
@@ -196,6 +199,16 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
         locationTextInput.disabled = event.target.checked;
       }
 
+      function prepPopup(incident: Incident) {
+        setSelectedIncident(incident);
+        onTriggerPopup(incident);
+      }
+
+      function closePopup() {
+        setSelectedIncident(null);
+        onTriggerPopup(null);
+      }
+
     return(
         <>
         {/* FORM */}
@@ -250,7 +263,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                 <td>{incident.type}</td>
                 <td>{incident.dateTime}</td>
                 <td className="status" onClick={() => changeStatus(index)}>{incident.status}</td>
-                <td className="details" onClick={() => setSelectedIncident(incident)}>Details</td>
+                <td className="details" onClick={() => prepPopup(incident)}>Details</td>
                 <td className="delete" onClick={ () => deleteIncident(index)}>Delete</td>
               </tr>
             ))}
@@ -260,7 +273,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
             {selectedIncident && (
                 <DetailsCard
                     incident={selectedIncident}
-                    onClose={() => setSelectedIncident(null)}
+                    onClose={() => closePopup()}
                 />
             )}
             </div>

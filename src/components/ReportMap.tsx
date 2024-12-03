@@ -16,9 +16,11 @@ interface Incident {
   status: string;
 }
 
-function ReportMap({ setMarkerPosition, incidents }:
+function ReportMap({ setMarkerPosition, incidents, triggerIncident }:
     {setMarkerPosition: (position: [number, number]) => void,
-    incidents: Incident[];}) {
+      incidents: Incident[];
+      triggerIncident: Incident | null;
+    }) {
 
   const [position, setPosition] = useState<[number, number] | null>(null);
   // state for pulling up information when an incident in the list is selected
@@ -71,7 +73,14 @@ function ReportMap({ setMarkerPosition, incidents }:
           </Marker>
         ))}
         <LocationMarker />
-      <Details />
+        <Details />
+        {/* Trigger popup when the details button in List is clicked*/}
+        {triggerIncident && ( 
+            <Popup position={triggerIncident?.location}>
+              <strong>{triggerIncident.type}</strong> <br/>
+              {triggerIncident.comments} <br />
+            </Popup>
+        )}
       </MapContainer>
         {/* DetailsCard displays the details of the selected incident */}
       {selectedIncident && (
