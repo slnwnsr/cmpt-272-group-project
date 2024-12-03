@@ -193,6 +193,55 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
         locationTextInput.disabled = event.target.checked;
       }
 
+      //Sort incidents by location name ascending
+      function sortByLocationNameAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName < b.locationName ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by location name descending
+      function sortByLocationNameDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName > b.locationName ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by type ascending
+      function sortByTypeAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type < b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by type descending
+      function sortByTypeDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type > b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by time ascending
+      function sortByTimeAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime < b.dateTime ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by time descending
+      function sortByTimeDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime > b.dateTime ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by status ascending
+      function sortByStatusAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.status < b.status ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by status descending
+      function sortByStatusDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.status > b.status ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+
     return(
         <>
         {/* FORM */}
@@ -236,11 +285,23 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
             <table id="listTable">
                 <tbody>
                 <tr>
-                <th>Location</th>
-                <th>Type</th>
-                <th>Time Reported</th>
-                <th colSpan={3}>Status</th>
-              </tr>
+                  <th>Location
+                    <button onClick = {sortByLocationNameAscending}>↑</button>
+                    <button onClick = {sortByLocationNameDescending}>↓</button>
+                  </th>
+                  <th>Type
+                    <button onClick = {sortByTypeAscending}>↑</button>
+                    <button onClick = {sortByTypeDescending}>↓</button> 
+                  </th>
+                  <th>Time Reported
+                    <button onClick = {sortByTimeAscending}>↑</button>
+                    <button onClick = {sortByTimeDescending}>↓</button> 
+                  </th>
+                  <th colSpan={3}>Status
+                    <button onClick = {sortByStatusAscending}>↑</button>
+                    <button onClick = {sortByStatusDescending}>↓</button> 
+                  </th>
+                </tr>
             {incidents.map((incident, index) => (
               <tr key={index}>
                 <td>{incident.locationName}</td>
