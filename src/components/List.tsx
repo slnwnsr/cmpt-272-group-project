@@ -18,9 +18,12 @@ interface Incident {
   // hashed password for verifying deletion and status changing
   const hashedPassword: string = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 
-function List({ markerPosition, onAddIncident, onDeleteIncident }:
+function List({ markerPosition, onAddIncident, onDeleteIncident, onTriggerPopup }:
     { markerPosition: [number, number] | null,
-      onAddIncident: (incident: Incident) => void, onDeleteIncident: (index: number) => void }) {
+      onAddIncident: (incident: Incident) => void, 
+      onDeleteIncident: (index: number) => void,
+      onTriggerPopup: (incident: Incident | null) => void 
+    }) {
 
     // state for pulling up information when an incident in the list is selected
     const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
@@ -108,6 +111,9 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                 localStorage.setItem('incidents', JSON.stringify(updatedIncidents));
                 onAddIncident(newIncident);
                 console.log("Incident saved:", newIncident);
+                //reset input fields
+                const form = event.target as HTMLFormElement;
+                form.reset();
             }
         }
     }
@@ -242,13 +248,72 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
       }
 
 
+      //Sort incidents by location name ascending
+      function sortByLocationNameAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName < b.locationName ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by location name descending
+      function sortByLocationNameDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName > b.locationName ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by type ascending
+      function sortByTypeAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type < b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by type descending
+      function sortByTypeDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.type > b.type ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by time ascending
+      function sortByTimeAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime < b.dateTime ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by time descending
+      function sortByTimeDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime > b.dateTime ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by status ascending
+      function sortByStatusAscending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.status < b.status ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+      //Sort incidents by status descending
+      function sortByStatusDescending() {
+        const incidentsArraySorted = [...incidents].sort((a,b) => a.status > b.status ? -1 : 1);
+        setIncidents(incidentsArraySorted);
+      }
+
+
+      function prepPopup(incident: Incident) {
+        setSelectedIncident(incident);
+        onTriggerPopup(incident);
+      }
+
+      function closePopup() {
+        setSelectedIncident(null);
+        onTriggerPopup(null);
+      }
+
     return(
         <>
         {/* FORM */}
         <div id="incidentWindow">
         <div id="incidentForm">
             <h3>Report an Incident</h3>
-            <form  onSubmit={addIncident}>
+            <form onSubmit={addIncident}>
                 <table>
                     <tbody>
                     <tr>
@@ -308,7 +373,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                 <td>{incident.type}</td>
                 <td>{incident.dateTime}</td>
                 <td className="status" onClick={() => changeStatus(index)}>{incident.status}</td>
-                <td className="details" onClick={() => setSelectedIncident(incident)}>Details</td>
+                <td className="details" onClick={() => prepPopup(incident)}>Details</td>
                 <td className="delete" onClick={ () => deleteIncident(index)}>Delete</td>
               </tr>
             ))}
@@ -318,7 +383,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
             {selectedIncident && (
                 <DetailsCard
                     incident={selectedIncident}
-                    onClose={() => setSelectedIncident(null)}
+                    onClose={() => closePopup()}
                 />
             )}
             </div>
