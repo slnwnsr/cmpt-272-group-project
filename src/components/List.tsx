@@ -247,56 +247,6 @@ function List({ markerPosition, onAddIncident, onDeleteIncident, onTriggerPopup 
         setIncidents(incidentsArraySorted);
       }
 
-
-      //Sort incidents by location name ascending
-      function sortByLocationNameAscending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName < b.locationName ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by location name descending
-      function sortByLocationNameDescending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.locationName > b.locationName ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by type ascending
-      function sortByTypeAscending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.type < b.type ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by type descending
-      function sortByTypeDescending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.type > b.type ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by time ascending
-      function sortByTimeAscending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime < b.dateTime ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by time descending
-      function sortByTimeDescending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.dateTime > b.dateTime ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by status ascending
-      function sortByStatusAscending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.status < b.status ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-      //Sort incidents by status descending
-      function sortByStatusDescending() {
-        const incidentsArraySorted = [...incidents].sort((a,b) => a.status > b.status ? -1 : 1);
-        setIncidents(incidentsArraySorted);
-      }
-
-
       function prepPopup(incident: Incident) {
         setSelectedIncident(incident);
         onTriggerPopup(incident);
