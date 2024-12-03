@@ -323,8 +323,8 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
             )}
             </div>
         </div>
-        </div>
-        </>
+       </div>
+      </>
     );
 }
 

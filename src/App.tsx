@@ -43,6 +43,8 @@ function App() {
     localStorage.setItem('incidents', JSON.stringify(updatedIncidents));
   }
 
+  
+
   return (
     <>
     <Heading/>

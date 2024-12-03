@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaf
 import './ReportMap.css';
 import "leaflet/dist/leaflet.css";
 import { useState } from 'react';
+import { LeafletEvent } from 'leaflet'; // Import LeafletEvent type
 
 interface Incident {
   name: string;
@@ -29,9 +30,27 @@ function ReportMap({ setMarkerPosition, incidents }:
         setPosition([lat, lng]);
         setMarkerPosition([lat, lng]);
       },
+      moveend(e: LeafletEvent) { // Type the event here as LeafletEvent
+        const map = e.target; // Access the map object
+        const bounds = map.getBounds(); // Get the updated bounds
+
+        // Log the updated bounds
+        console.log("Updated map bounds:", bounds);
+
+        // Check which markers are within the current bounds
+        incidents.forEach((incident) => {
+          const markerPosition = incident.location;
+          const markerLatLng = { lat: markerPosition[0], lng: markerPosition[1] };
+
+          // Check if the marker is within the bounds
+          if (bounds.contains(markerLatLng)) {
+            console.log("Marker within bounds:", incident.name, markerPosition);
+          }
+        });
+      },
     });
     return position ? (
-      <Marker position={position} opacity={.6}/>
+      <Marker position={position} opacity={.6} />
     ) : null;
   }
 
@@ -43,10 +62,18 @@ function ReportMap({ setMarkerPosition, incidents }:
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {incidents.map((incident, index) => (
-          <Marker key={index} position={incident.location}>
+          <Marker 
+            key={index} 
+            position={incident.location}
+            eventHandlers={{
+              click: () => {
+                console.log("Marker clicked at coordinates:", incident.location);
+              },
+            }}
+          >
             <Popup>
               {/* display preview of details when marker is clicked */}
-              <strong>{incident.type}</strong> <br/>
+              <strong>{incident.type}</strong> <br />
               {incident.comments} <br />
               {incident.picture && (
                 <img
@@ -64,4 +91,4 @@ function ReportMap({ setMarkerPosition, incidents }:
   );
 }
 
-export default ReportMap
+export default ReportMap;
