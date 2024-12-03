@@ -17,11 +17,11 @@ interface Incident {
   status: string;
 }
 
-interface MapProps {
-  setMarkerPosition: (position: [number, number]) => void;
-  incidents: Incident[];
-  setVisibleIncidents: (indices: number[]) => void;
-}
+// interface MapProps {
+//   setMarkerPosition: (position: [number, number]) => void;
+//   incidents: Incident[];
+//   setVisibleIncidents: (indices: number[]) => void;
+// }
 
 function ReportMap({ setMarkerPosition, incidents, triggerIncident, setVisibleIncidents }:
     {setMarkerPosition: (position: [number, number]) => void,
