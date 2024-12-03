@@ -21,7 +21,7 @@ function App() {
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [visibleIncidents, setVisibleIncidents] = useState<number[]>([]);
-  
+  const [triggerIncident, setTriggerIncident] = useState<Incident | null>(null);
 
   // get incident list from storage
   useEffect(() => {
@@ -52,10 +52,21 @@ function App() {
     <Heading/>
     <div className="container">
       <div className="box">
-        <ReportMap setMarkerPosition={setMarkerPosition} incidents={incidents} setVisibleIncidents={setVisibleIncidents}/>
+        <ReportMap 
+          setMarkerPosition={setMarkerPosition} 
+          incidents={incidents}
+          triggerIncident={triggerIncident}
+          setVisibleIncidents={setVisibleIncidents}
+        />
       </div>
       <div className="box">
-        <List markerPosition={markerPosition} onAddIncident={handleAddIncident} onDeleteIncident={handleDeleteIncident} visibleIncidents={visibleIncidents}/>
+        <List 
+          markerPosition={markerPosition} 
+          onAddIncident={handleAddIncident} 
+          onDeleteIncident={handleDeleteIncident}
+          onTriggerPopup={setTriggerIncident}
+          visibleIncidents={visibleIncidents}
+        />
       </div>
     </div>
     </>
