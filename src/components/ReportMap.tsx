@@ -3,6 +3,7 @@ import './ReportMap.css';
 import "leaflet/dist/leaflet.css";
 import { useState } from 'react';
 import { LeafletEvent } from 'leaflet'; // Import LeafletEvent type
+import DetailsCard from './DetailsCard'
 
 interface Incident {
   name: string;
@@ -22,12 +23,16 @@ interface MapProps {
   setVisibleIncidents: (indices: number[]) => void;
 }
 
-function ReportMap({ setMarkerPosition, incidents, setVisibleIncidents }:
+function ReportMap({ setMarkerPosition, incidents, triggerIncident, setVisibleIncidents }:
     {setMarkerPosition: (position: [number, number]) => void,
     incidents: Incident[];
-    setVisibleIncidents: (indices: number[]) => void;}) {
+    triggerIncident: Incident | null;
+    setVisibleIncidents: (indices: number[]) => void;
+    }) {
 
   const [position, setPosition] = useState<[number, number] | null>(null);
+  // state for pulling up information when an incident in the list is selected
+  const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
 
   // place a temporary marker where the client clicks on the map
   function LocationMarker() {
@@ -58,7 +63,19 @@ function ReportMap({ setMarkerPosition, incidents, setVisibleIncidents }:
     ) : null;
   }
 
-
+  function Details() {
+    return (
+      <>
+        {/* DetailsCard displays the details of the selected incident */}
+        {selectedIncident && (
+          <DetailsCard
+            incident={selectedIncident}
+            onClose={() => setSelectedIncident(null)}
+          />
+        )}
+      </>
+    )
+  }
 
   return (
     <>
@@ -72,9 +89,7 @@ function ReportMap({ setMarkerPosition, incidents, setVisibleIncidents }:
             key={index} 
             position={incident.location}
             eventHandlers={{
-              click: () => {
-                console.log("Marker clicked at coordinates:", incident.location);
-              },
+              click: () => setSelectedIncident(incident),
             }}
           >
             <Popup>
@@ -92,7 +107,29 @@ function ReportMap({ setMarkerPosition, incidents, setVisibleIncidents }:
           </Marker>
         ))}
         <LocationMarker />
+        <Details />
+        {/* Trigger popup when the details button in List is clicked*/}
+        {triggerIncident && ( 
+            <Popup position={triggerIncident?.location}>
+              <strong>{triggerIncident.type}</strong> <br/>
+              {triggerIncident.comments} <br />
+              {triggerIncident.picture && (
+                <img
+                  src={triggerIncident.picture}
+                  alt={triggerIncident.name}
+                  style={{ width: '100px', height: 'auto' }}
+                />
+              )}
+            </Popup>
+        )}
       </MapContainer>
+        {/* DetailsCard displays the details of the selected incident */}
+      {selectedIncident && (
+        <DetailsCard
+            incident={selectedIncident}
+            onClose={() => setSelectedIncident(null)}
+        />
+      )}
     </>
   );
 }

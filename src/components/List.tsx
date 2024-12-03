@@ -18,10 +18,11 @@ interface Incident {
   // hashed password for verifying deletion and status changing
   const hashedPassword: string = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 
-function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncidents = [] }:
+function List({ markerPosition, onAddIncident, onDeleteIncident, onTriggerPopup, visibleIncidents = [] }:
     { markerPosition: [number, number] | null;
       onAddIncident: (incident: Incident) => void;
       onDeleteIncident: (index: number) => void;
+      onTriggerPopup: (incident: Incident | null) => void 
       visibleIncidents?: number[];
     }) {
 
@@ -111,6 +112,9 @@ function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncident
                 localStorage.setItem('incidents', JSON.stringify(updatedIncidents));
                 onAddIncident(newIncident);
                 console.log("Incident saved:", newIncident);
+                //reset input fields
+                const form = event.target as HTMLFormElement;
+                form.reset();
             }
         }
     }
@@ -244,6 +248,16 @@ function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncident
         setIncidents(incidentsArraySorted);
       }
 
+      //Handle the event where the details section on list is clicked
+      function prepPopup(incident: Incident) {
+        setSelectedIncident(incident);
+        onTriggerPopup(incident);
+      }
+
+      function closePopup() {
+        setSelectedIncident(null);
+        onTriggerPopup(null);
+      }
 
     return(
         <>
@@ -251,7 +265,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncident
         <div id="incidentWindow">
         <div id="incidentForm">
             <h3>Report an Incident</h3>
-            <form  onSubmit={addIncident}>
+            <form onSubmit={addIncident}>
                 <table>
                     <tbody>
                     <tr>
@@ -311,7 +325,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncident
                 <td>{incident.type}</td>
                 <td>{incident.dateTime}</td>
                 <td className="status" onClick={() => changeStatus(index)}>{incident.status}</td>
-                <td className="details" onClick={() => setSelectedIncident(incident)}>Details</td>
+                <td className="details" onClick={() => prepPopup(incident)}>Details</td>
                 <td className="delete" onClick={ () => deleteIncident(index)}>Delete</td>
               </tr>
             ))}
@@ -321,7 +335,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncident
             {selectedIncident && (
                 <DetailsCard
                     incident={selectedIncident}
-                    onClose={() => setSelectedIncident(null)}
+                    onClose={() => closePopup()}
                 />
             )}
             </div>
