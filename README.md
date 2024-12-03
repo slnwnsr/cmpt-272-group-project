@@ -7,7 +7,7 @@
 - Sloane Wensauer ()
 - Jake Choi (301552446)
 - Enoch Muwanguzi (301544234)
-- Kaira Martinez ()
+- Kaira Martinez (301427043)
 - Karl Matthew Rodriguez (301576895)
 
 ## Usage
