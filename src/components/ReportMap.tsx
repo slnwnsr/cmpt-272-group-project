@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaf
 import './ReportMap.css';
 import "leaflet/dist/leaflet.css";
 import { useState } from 'react';
+import { LeafletEvent } from 'leaflet'; // Import LeafletEvent type
 
 interface Incident {
   name: string;
@@ -15,9 +16,16 @@ interface Incident {
   status: string;
 }
 
-function ReportMap({ setMarkerPosition, incidents }:
+interface MapProps {
+  setMarkerPosition: (position: [number, number]) => void;
+  incidents: Incident[];
+  setVisibleIncidents: (indices: number[]) => void;
+}
+
+function ReportMap({ setMarkerPosition, incidents, setVisibleIncidents }:
     {setMarkerPosition: (position: [number, number]) => void,
-    incidents: Incident[];}) {
+    incidents: Incident[];
+    setVisibleIncidents: (indices: number[]) => void;}) {
 
   const [position, setPosition] = useState<[number, number] | null>(null);
 
@@ -29,11 +37,28 @@ function ReportMap({ setMarkerPosition, incidents }:
         setPosition([lat, lng]);
         setMarkerPosition([lat, lng]);
       },
+      moveend(e: LeafletEvent) { // Type the event here as LeafletEvent
+        const map = e.target; // Access the map object
+        const bounds = map.getBounds(); // Get the updated bounds
+        
+        // Track which incident indices are visible
+        const visibleIndices = incidents.reduce((acc: number[], incident, index) => {
+          const markerLatLng = { lat: incident.location[0], lng: incident.location[1] };
+          if (bounds.contains(markerLatLng)) {
+            acc.push(index);
+          }
+          return acc;
+        }, []);
+
+        setVisibleIncidents(visibleIndices);
+      },
     });
     return position ? (
-      <Marker position={position} opacity={.6}/>
+      <Marker position={position} opacity={.6} />
     ) : null;
   }
+
+
 
   return (
     <>
@@ -43,10 +68,18 @@ function ReportMap({ setMarkerPosition, incidents }:
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {incidents.map((incident, index) => (
-          <Marker key={index} position={incident.location}>
+          <Marker 
+            key={index} 
+            position={incident.location}
+            eventHandlers={{
+              click: () => {
+                console.log("Marker clicked at coordinates:", incident.location);
+              },
+            }}
+          >
             <Popup>
               {/* display preview of details when marker is clicked */}
-              <strong>{incident.type}</strong> <br/>
+              <strong>{incident.type}</strong> <br />
               {incident.comments} <br />
               {incident.picture && (
                 <img
@@ -64,4 +97,4 @@ function ReportMap({ setMarkerPosition, incidents }:
   );
 }
 
-export default ReportMap
+export default ReportMap;
