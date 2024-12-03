@@ -20,6 +20,8 @@ function App() {
 
   const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null);
   const [incidents, setIncidents] = useState<Incident[]>([]);
+  const [visibleIncidents, setVisibleIncidents] = useState<number[]>([]);
+  
 
   // get incident list from storage
   useEffect(() => {
@@ -50,10 +52,10 @@ function App() {
     <Heading/>
     <div className="container">
       <div className="box">
-        <ReportMap setMarkerPosition={setMarkerPosition} incidents={incidents}/>
+        <ReportMap setMarkerPosition={setMarkerPosition} incidents={incidents} setVisibleIncidents={setVisibleIncidents}/>
       </div>
       <div className="box">
-        <List markerPosition={markerPosition} onAddIncident={handleAddIncident} onDeleteIncident={handleDeleteIncident}/>
+        <List markerPosition={markerPosition} onAddIncident={handleAddIncident} onDeleteIncident={handleDeleteIncident} visibleIncidents={visibleIncidents}/>
       </div>
     </div>
     </>

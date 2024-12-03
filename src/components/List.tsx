@@ -18,9 +18,12 @@ interface Incident {
   // hashed password for verifying deletion and status changing
   const hashedPassword: string = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 
-function List({ markerPosition, onAddIncident, onDeleteIncident }:
-    { markerPosition: [number, number] | null,
-      onAddIncident: (incident: Incident) => void, onDeleteIncident: (index: number) => void }) {
+function List({ markerPosition, onAddIncident, onDeleteIncident, visibleIncidents = [] }:
+    { markerPosition: [number, number] | null;
+      onAddIncident: (incident: Incident) => void;
+      onDeleteIncident: (index: number) => void;
+      visibleIncidents?: number[];
+    }) {
 
     // state for pulling up information when an incident in the list is selected
     const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
@@ -303,7 +306,7 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
                   </th>
                 </tr>
             {incidents.map((incident, index) => (
-              <tr key={index}>
+              <tr key={index} style={{display: visibleIncidents.includes(index) ? '' : 'none' }}>
                 <td>{incident.locationName}</td>
                 <td>{incident.type}</td>
                 <td>{incident.dateTime}</td>
@@ -323,8 +326,8 @@ function List({ markerPosition, onAddIncident, onDeleteIncident }:
             )}
             </div>
         </div>
-       </div>
-      </>
+        </div>
+        </>
     );
 }
 

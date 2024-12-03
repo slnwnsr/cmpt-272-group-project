@@ -16,9 +16,16 @@ interface Incident {
   status: string;
 }
 
-function ReportMap({ setMarkerPosition, incidents }:
+interface MapProps {
+  setMarkerPosition: (position: [number, number]) => void;
+  incidents: Incident[];
+  setVisibleIncidents: (indices: number[]) => void;
+}
+
+function ReportMap({ setMarkerPosition, incidents, setVisibleIncidents }:
     {setMarkerPosition: (position: [number, number]) => void,
-    incidents: Incident[];}) {
+    incidents: Incident[];
+    setVisibleIncidents: (indices: number[]) => void;}) {
 
   const [position, setPosition] = useState<[number, number] | null>(null);
 
@@ -33,26 +40,25 @@ function ReportMap({ setMarkerPosition, incidents }:
       moveend(e: LeafletEvent) { // Type the event here as LeafletEvent
         const map = e.target; // Access the map object
         const bounds = map.getBounds(); // Get the updated bounds
-
-        // Log the updated bounds
-        console.log("Updated map bounds:", bounds);
-
-        // Check which markers are within the current bounds
-        incidents.forEach((incident) => {
-          const markerPosition = incident.location;
-          const markerLatLng = { lat: markerPosition[0], lng: markerPosition[1] };
-
-          // Check if the marker is within the bounds
+        
+        // Track which incident indices are visible
+        const visibleIndices = incidents.reduce((acc: number[], incident, index) => {
+          const markerLatLng = { lat: incident.location[0], lng: incident.location[1] };
           if (bounds.contains(markerLatLng)) {
-            console.log("Marker within bounds:", incident.name, markerPosition);
+            acc.push(index);
           }
-        });
+          return acc;
+        }, []);
+
+        setVisibleIncidents(visibleIndices);
       },
     });
     return position ? (
       <Marker position={position} opacity={.6} />
     ) : null;
   }
+
+
 
   return (
     <>
