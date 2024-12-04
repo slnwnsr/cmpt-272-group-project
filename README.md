@@ -1,13 +1,11 @@
 # cmpt-272-group-project
 
 ## Crime Report 
-[description]
+Web application that allows users to report crime or emergency related incidents.
 
-## Group Members
-- Sloane Wensauer ()
-- Jake Choi (301552446)
-- Enoch Muwanguzi (301544234)
-- Kaira Martinez (301427043)
-- Karl Matthew Rodriguez (301576895)
-
-## Usage
+## Group Members and Contributions
+- Sloane Wensauer (301567908) 20%
+- Jake Choi (301552446) 20%
+- Enoch Muwanguzi (301544234) 20%
+- Kaira Martinez (301427043) 20%
+- Karl Matthew Rodriguez (301576895) 20%
